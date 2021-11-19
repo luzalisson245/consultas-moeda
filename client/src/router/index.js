@@ -1,17 +1,28 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Ping from '../components/Ping.vue';
+<script>
+import axios from 'axios';
 
-Vue.use(Router);
-
-export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/ping',
-      name: 'Ping',
-      component: Ping,
+export default {
+  name: 'Ping',
+  data() {
+    return {
+      msg: '',
+    };
+  },
+  methods: {
+    getMessage() {
+      const path = 'http://localhost:5000/ping';
+      axios.get(path)
+        .then((res) => {
+          this.msg = res.data;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
     },
-  ],
-});
+  },
+  created() {
+    this.getMessage();
+  },
+};
+</script>
